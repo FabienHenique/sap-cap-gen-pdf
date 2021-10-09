@@ -1,0 +1,8 @@
+---
+applications:
+- name: cap-pdf-gen
+  buildpacks:
+    - https://github.com/cloudfoundry/nodejs-buildpack
+  command: npm start
+  memory: 128M
+  disk_quota: 256M
