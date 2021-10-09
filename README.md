@@ -1,6 +1,7 @@
 # PDF Generator
 
-Générer un PDF à partir d'une requête POST d'un template créé grâce à pdfkit et NodeJS
+Generate a PDF file based on a POST request.
+Include pdfkit and NodeJS
 
 ## Getting started
 
