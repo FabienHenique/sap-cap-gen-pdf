@@ -3,16 +3,16 @@ const PDFDocument = require("pdfkit");
 
 const columns = new Map([
   ["code", { "header": "Code", "width": 45 }],
-  ["designation", { "header": "Description", "width": 170, "textWidth": 156 }],
+  ["designation", { "header": "Désignation", "width": 170, "textWidth": 156 }],
   ["isCE", { "header": "", "width": 0, "textWidth": 14 }],
-  ["weight", { "header": "Net weight", "width": 40 }],
+  ["weight", { "header": "Poids", "width": 40 }],
   ["tare", { "header": "Tare", "width": 40 }],
-  ["quantity", { "header": "Quantity", "width": 45 }],
-  ["grossPrice", { "header": "Gross price", "width": 55 }],
+  ["quantity", { "header": "Quantité", "width": 45 }],
+  ["grossPrice", { "header": "Prix brut", "width": 55 }],
   ["discount", { "header": "R.", "width": 20 }],
-  ["netPrice", { "header": "Net price", "width": 55 }],
-  ["grossTotal", { "header": "Gross total", "width": 60 }],
-  ["VAT", { "header": "VAT", "width": 20 }],
+  ["netPrice", { "header": "Prix net", "width": 55 }],
+  ["grossTotal", { "header": "Montant HT", "width": 60 }],
+  ["VAT", { "header": "TVA", "width": 20 }],
 ]);
 
 // Fill textWidth property when not explicitly set
@@ -57,11 +57,12 @@ function generateHeaderBox(doc, deliveryNote, x, y) {
 
   // Fill the top section
 
-  var companyName = "Nagarro ES France";
+  var companyName = "Sablières  J. LEONHART";
   var companyInfoLines = [
-    "8a Rue Icare - 67960 Entzheim",
-    "Tel. +33 69 24 20 00",
-    "Reg nr: 82515283800017"
+    "ROUTE DE STRASBOURG - B.P. 70005 - 67601 SELESTAT CEDEX",
+    "Tél. 03 88 58 80 30 - Fax. 03 88 82 88 74",
+    "R.C. COLMAR 60 B 17 - N° Siret : 916 020 175",
+    "Ape : 2363Z - N° Intracommunautaire TVA / CCE : FR00916020175"
   ];
 
   doc
@@ -69,7 +70,7 @@ function generateHeaderBox(doc, deliveryNote, x, y) {
     .fontSize(18)
     .text(companyName, x + 2, y + 2, { width: width, align: "center" })
     .fontSize(6)
-    .text("SASU - 10.000€", x + 2, y + 17, { width: width, align: "center" })
+    .text("SAS au capital de 5 000 000€", x + 2, y + 17, { width: width, align: "center" })
     .font('Courier')
 
   doc.text("", x + 2, y + 30);
@@ -107,7 +108,7 @@ function generateHeaderBox(doc, deliveryNote, x, y) {
     .fontSize(leftFontSize)
     .text("Date", x, offsetY, leftStyle);
 
-  var dateText = deliveryNote.date + " at " + deliveryNote.time + ", Site code : " + deliveryNote.site
+  var dateText = deliveryNote.date + " à " + deliveryNote.time + ", Site : " + deliveryNote.site
   doc
     .fontSize(rightFontSize)
     .text(dateText, rightX, offsetY, rightStyle); 
@@ -117,7 +118,7 @@ function generateHeaderBox(doc, deliveryNote, x, y) {
   // Camion 
   doc
     .fontSize(leftFontSize)
-    .text("Truck", x, offsetY, leftStyle);
+    .text("Camion", x, offsetY, leftStyle);
   doc
     .fontSize(rightFontSize)
     .text(deliveryNote.truck, rightX, offsetY, rightStyle);
@@ -127,7 +128,7 @@ function generateHeaderBox(doc, deliveryNote, x, y) {
   // Client
   doc
     .fontSize(leftFontSize)
-    .text("Customer ID", x, offsetY, leftStyle);
+    .text("N° client", x, offsetY, leftStyle);
   doc
     .fontSize(rightFontSize)
     .text(deliveryNote.customerId, rightX, offsetY, rightStyle);
@@ -145,7 +146,7 @@ function generateHeaderBox(doc, deliveryNote, x, y) {
   if (deliveryNote.customerPhoneNumber) {
     // remove all spaces from phone number because white-spacing is too
     // big with the Courier font. It overflows the table cell.
-    var tel = "Phone: " + deliveryNote.customerPhoneNumber.replace(/ /g,"");
+    var tel = "Tél: " + deliveryNote.customerPhoneNumber.replace(/ /g,"");
   } else {
     var tel = "";
   }
@@ -170,10 +171,10 @@ function generateHeaderBox(doc, deliveryNote, x, y) {
 
   offsetY += tableRowHeight;
 
-  // City
+  // Commune
   doc
     .fontSize(leftFontSize)
-    .text("City", x, y + 139, leftStyle);
+    .text("Commune", x, y + 139, leftStyle);
   doc
     .fontSize(rightFontSize)
     .text(deliveryNote.customerCity, rightX, y + 138, rightStyle);
@@ -184,7 +185,7 @@ function generateDeliveryNoteText(doc, deliveryNoteId, x, y) {
   doc
     .font('Courier-Bold')
     .fontSize(15)
-    .text("Delivery note " + deliveryNoteId, x, y, { width: 270 })
+    .text("BULLETIN LIVRAISON N°" + deliveryNoteId, x, y, { width: 270 })
     .font('Courier');
 }
 
@@ -212,7 +213,7 @@ function generateAddressesBox(doc, deliveryNote, x, y) {
     .stroke();
   doc
     .fontSize(8)
-    .text("Shipping address", x, y - 2 , { width: width, align: "center" })
+    .text("Adresse de Livraison", x, y - 2 , { width: width, align: "center" })
 
   // Draw broken line for delivery address 
   doc
@@ -223,7 +224,7 @@ function generateAddressesBox(doc, deliveryNote, x, y) {
     .stroke();
   doc
     .fontSize(8)
-    .text("Billing address", x, y + height / 2 - 2, { width: width, align: "center" })
+    .text("Adresse de Facturation", x, y + height / 2 - 2, { width: width, align: "center" })
 
 
   // Hack as moveTo doesn't work as expected, see issue #1092 on Github
@@ -353,11 +354,11 @@ function fillRows(doc, rows, x, y) {
 
 function generateFooter(doc, y) {
   var legalTextLines = [
-    "Pomerium vile aestimant urbis diversitate coluntur esse extra nascitur obsequiorum sine obsequiorum aestimant orbos orbos.",
-    "TCoegit qui cum cum capitis reconciliat universis conscripti undique et et gratiam de amor et me animus pristinus in olim.",
-    "Memoriam odium memoriam caedes dictionem libidines sine puteos morte memoriam.",
-    "Coegit qui cum cum capitis reconciliat universis conscripti undique et et gratiam de amor et me animus pristinus in olim.",
-    "Memoriam odium memoriam caedes dictionem libidines sine puteos morte memoriam."
+    "Tout paiement différé est passible des intérêts de retard dont le taux est égal à 1,5 fois le taux d’escompte de la Banque de France.",
+    "Toute contestation qui pourrait survenir à l’occasion de l’interprétation et de l’exécution des présentes conventions sont nonobstant toute clause contraire à l’acheteur, de la compétence exclusive du Tribunal du lieu de notre siège social, c’est-à-dire du ressort de la Cour d’Appel de Colmar. Les réclamations ne sont admises que dans un délai de 48h.",
+    "Toutes déductions entraînent une diminution proportionnelle du montant de la TVA déductible.",
+    "Les caractéristiques de nos produits sous marquage CE sont renseignés dans la Déclaration des Performances N° 499-2000-2-03 et ses annexes. Ces documents sont consultables sur demande.",
+    "Organisme certificateur n° 0788 - Date de première application du marquage CE : 2011."
   ];
 
   // Hack as moveTo doesn't work as expected, see issue #1092 on Github
@@ -380,7 +381,7 @@ function generateFooter(doc, y) {
 
   doc
     .fontSize(8)
-    .text("Delivery received", boxX,  y + 5, { width: boxWidth, align: "center" })
+    .text("Livraison réceptionnée", boxX,  y + 5, { width: boxWidth, align: "center" })
     .moveDown(0.2)
     .text(" Signature :");
 }
@@ -400,12 +401,12 @@ function createDeliveryNote(deliveryNote) {
     {
       topY: 0,
       headerNumber: "1",
-      tableFootNote: "Customer copy",      
+      tableFootNote: "Exemplaire client",      
     },
     {
       topY: doc.page.height / 2 - 10,
       headerNumber: "2",
-      tableFootNote: "Copy",
+      tableFootNote: "Copie",
     }
   ];
 

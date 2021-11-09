@@ -12,44 +12,47 @@ const srcDir = path.resolve(__dirname);
 var file;
 
 const templateDeliveryNote  = {
-  "date": "2021/10/09",
-  "time": "12:00",
-  "site": "SXB",
-  "truck": "BF-123-FF",
+  "date": "17/06/2020",
+  "time": "10h28",
+  "site": "LTr",
+  "truck": "AA-123-BB",
   "customerId": "100235",
-  "customerPhoneNumber": "+33 1 23 45 67 89",
-  "customerFaxNumber": "N/A",
+  "customerPhoneNumber": "01 23 45 67 89",
+  "customerFaxNumber": "01 23 45 67 90",
   "customerCity": "STRASBOURG CITY",
   "deliveryNoteId": "20012345",
   "shippingAddressLines": [
-    "NAGARRO ES FRANCE",
-    "8A RUE ICARE",
+    "SOCIETE ANONYME D'ALSACE",
+    "1 RUE DES BONNES GENS",
+    "80307",
     "67960 ENTZHEIM"
   ],   
   "billingAddressLines": [
-    "SAP",
-    "35 RUE D ALSACE",
-    "BP 1234",
-    "92300 LEVALLOIS-PERRET",
+    "S.A.S GESTION D'ENTREPRISES",
+    "5 AVENUE FOCH",
+    "BP 80701",
+    "67112 STRASBOURG CEDEX",
   ],
   "rows":[
     {
       "code": '52001003',
-      "designation": ["pencil box NFR", "Big box with 15 pencils - Nagarro ES Branding"],
+      "designation": ["SABLE_TEST", "LAC03 - RCUG70 RA30- EN13242"],
       "isCE": true,
       "weight": "25.80",
       "tare": "13.66",
-      "quantity": "12,14KG",
+      "quantity": "12,14T",
     },
     {
-      "code": 'SHP',
-      "designation": "Shipping cost",
-      "quantity": "1",
+      "code": '52001021',
+      "designation": "FIRST LINE DESCRIPTION",
       "isCE": false,
-      "grossPrice": "1.709€",
+      "weight": "14,69",
+      "tare": "7,2",
+      "quantity": "12,14T",
+      "grossPrice": "2 535€",
       "discount": "15%",
-      "netPrice": "1.743,18€",
-      "grossTotal": "1.452,65€",
+      "netPrice": "2 154,75€",
+      "grossTotal": "26 158,67€",
       "VAT": "20%"
     }
   ]
